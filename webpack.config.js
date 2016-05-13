@@ -6,6 +6,7 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 module.exports = {
+	devtool: 'eval',
 	entry: [
 		'./app/index.js'
 	],
