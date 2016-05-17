@@ -1,5 +1,6 @@
 var React = require('react');
 var ConfirmBattle = require('../components/ConfirmBattle');
+var githubHelpers = require('../utils/githubHelpers');
 
 
 var ConfirmBattleContainer = React.createClass({
@@ -11,23 +12,41 @@ var ConfirmBattleContainer = React.createClass({
 	getInitialState: function(){
 
 		return {
-				isLoading: false,
-				playerInfo :[]
+				isLoading: true,
+				playersInfo :[]
 
 			}
 	},
 
 	componentDidMount: function() {
 		var query = this.props.location.query;
-		console.log(this.props);
+		githubHelpers.getPlayersInfo([query.playerOne,query.playerTwo]).then(function(players) {
+			this.setState({
+				isLoading: false,
+				playersInfo: [players[0],players[1]]
+			})
+		}.bind(this))
+		
+	},
+
+	handleInitiateBattle: function() {
+		
+		this.context.router.push({
+        pathname: '/results',
+        state: {
+          playersInfo: this.state.playersInfo
+        }
+    })
+
 	},
 
 	render: function() {
 		return (
 				<ConfirmBattle isLoading={this.state.isLoading}
-				playerInfo = {this.state.playerInfo}
-				 />
-				)
+				playersInfo = {this.state.playersInfo}
+				onInitiateBattle = {this.handleInitiateBattle}
+				/>
+				);
 			
 	}
 	
