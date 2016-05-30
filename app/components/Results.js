@@ -6,25 +6,25 @@ var UserDetails = require('./UserDetails');
 var UserDetailsWrapper = require('./UserDetailsWrapper');
 
 
-function puke(object) {
-	return <pre>{JSON.stringify(object, null, ' ')}</pre>
+function Results(props) {
 
-}
 
-function ConfirmBattle(props) {
+	var WinningIndex = props.scores[0] > props.scores[1] ? 0 : 1;
+	var LosingIndex = WinningIndex === 0 ? 1 : 0;
 
-		return props.isLoading === true
-			? <p> loading ! </p>
-			: <p>: <div className="jumbotron col-sm-12 text-center" style={styles.transparentBg}>
-        <h1>Confirm Players</h1>
+
+	return props.isLoading === true
+			? <p>loading!</p>
+			: <p>:<div className="jumbotron col-sm-12 text-center" style={styles.transparentBg}>
+        <h1>Results</h1>
         <div className='col-sm-8 col-sm-offset-2'>
 
-        <UserDetailsWrapper player="Player One">  
-          <UserDetails info={props.playersInfo[0]} />
+        <UserDetailsWrapper player="Winner">  
+          <UserDetails scores={props.scores[WinningIndex]} info={props.playersInfo[WinningIndex]} />
         </UserDetailsWrapper>  
         
-        <UserDetailsWrapper player="Player Two">
-          <UserDetails info={props.playersInfo[1]} />
+        <UserDetailsWrapper player="Loser">
+          <UserDetails scores={props.scores[LosingIndex]} info={props.playersInfo[LosingIndex]} />
         </UserDetailsWrapper>
           	
         </div>
@@ -39,15 +39,12 @@ function ConfirmBattle(props) {
           </div>
         </div>
       </div></p>
-	
 }
 
-ConfirmBattle.propTypes = {
+Results.PropTypes = {
 	isLoading: PropTypes.bool.isRequired,
-	playersInfo: PropTypes.array.isRequired,
-	onInitiateBattle: PropTypes.func.isRequired,
-
+	playerInfo: PropTypes.array.isRequired,
+	scores: PropTypes.array.isRequired,
 }
 
-
-module.exports = ConfirmBattle;
+module.exports = Results;
